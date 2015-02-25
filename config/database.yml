@@ -18,8 +18,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-	database: comics_now_database_test
+  database: comics_now_database_test
 
 production:
   <<: *default
-	database: comics_now_database_production
+  database: comics_now_database_production
