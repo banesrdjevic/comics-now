@@ -1,0 +1,19 @@
+<div class="ui inverted menu" id='nav-menu'>
+  <div class="right menu">
+
+    <%if current_user%>
+      <%= link_to "Logout", logout_path, method: :delete, class: "header-option item"%>
+    <% else %>
+      <%= link_to "Login", login_path, class: "header-option item"%>
+      <%= link_to "Register", new_user_path, class: "header-option item"%>
+    <% end %>
+
+  </div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+<%= form_tag '/pictures', method: 'get' do %>
+<%= text_field_tag :site, nil, value: 'http://' %>
+<%= submit_tag 'Get Sites' %>
+<% end %>
+
+
+<div class = 'images'>
+	<% @sites.each do |site| %>
+		<div class = 'id'>
+			<a href = <%= site.site_url %> >
+				<%= site.title %>
+				<br>
+				<img src = <%= site.picture_url %> >
+			</a>
+		</div>
+	<% end %>
+</div>
