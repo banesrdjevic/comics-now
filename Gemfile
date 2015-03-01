@@ -15,6 +15,7 @@ gem 'simplecov', :require => false, :group => :test
 gem 'responders', '~> 2.0'
 gem "less-rails"
 gem 'bcrypt', '~> 3.1.7'
+gem 'rufus-scheduler'
 
 gem 'jquery-ui-rails'
 
