@@ -8,25 +8,27 @@ class Site < ActiveRecord::Base
 
 	def self.update_all
 		Site.all.each do |site|
+			puts site.site_url
 			site.update_database_entry(site)
 		end
 	end
 	
 	def self.spawn(site)
+		nokogiri = Nokogiri::HTML(open(site))
 		new_site = Site.new
-		data_set = new_site.data_hash(site)
+		data_set = new_site.data_hash(site, nokogiri)
 		new_site = Site.new(data_set)
-		new_site.find_image_from_site(new_site)
+		new_site.find_image_from_site(new_site, nokogiri)
 		new_site.save
 	end
 	
-	def data_hash(site)
+	def data_hash(site, nokogiri)
 		site_data = {
 			site_url: site,
-			picture_url: get_biggest_picture(site, get_domain(site))[1],
-			orig_pic_url: get_biggest_picture(site, get_domain(site))[0],
+			picture_url: get_biggest_picture(site, get_domain(site), nokogiri)[1],
+			orig_pic_url: get_biggest_picture(site, get_domain(site), nokogiri)[0],
 			domain: get_domain(site),
-			title: get_title(site)
+			title: get_title(nokogiri)
 		}
 	end
 
@@ -34,8 +36,8 @@ class Site < ActiveRecord::Base
 		FastImage.size(picture) != nil ? FastImage.size(picture).inject(:*) : 0
 	end
 
-	def get_biggest_picture(site, domain)
-		image_elements = Nokogiri::HTML(open(site)).search('img')
+	def get_biggest_picture(site, domain, nokogiri)
+		image_elements = nokogiri.search('img')
 		@images = image_elements.map{ |item| item.attributes["src"].value }
 		indexed_images = @images.each_with_index.map{|img, index| [index, url_shortener_filter(img, domain)]}
 		domain_filter = domain_filter(domain, indexed_images)
@@ -51,36 +53,47 @@ class Site < ActiveRecord::Base
 		site[/(?<=\.)[^_]+(?=\.)/]
 	end
 
-	def get_title(site)
-		Nokogiri::HTML(open(site)).search('title').children[0].text
+	def get_title(nokogiri)
+		nokogiri.search('title').children[0].text
 	end
 
 	def class_id_formatter(site)
-		classes = site.classes == nil ? "" : ".#{site.class}"
+		classes = site.classes == nil ? "" : ".#{site.classes}"
 		ids = site.ids == nil ? "" : "##{site.ids}"
-		"#{classes}#{ids}"
+		"#{site.container}#{classes}#{ids}"
 	end
 
 	def update_database_entry(site)
 		search_query = site.class_id_formatter(site)
-		doc = Nokogiri::HTML(open(site.site_url)).search("#{site.container}#{search_query}")
-		new_image = doc.xpath('img')[0].attributes['src'].value
+		doc = Nokogiri::HTML(open(site.site_url)).search(search_query)
+		new_image = site.container != "img" ? doc.search('img')[0]['src'] : doc[0]['src']
 		site.orig_pic_url = new_image
 		site.picture_url = site.filter_package(site)
-	  site.save
+		site.save
 	end
 
-	def find_image_from_site(site)
-		doc = Nokogiri::HTML(open(site.site_url)).search('img')
-		image = doc.select{|img|img.attributes['src'].value == site.orig_pic_url}
-		parent = image[0].parent
-		container = parent.name
-		classes = parent.attributes['class'] == nil ? nil : parent.attributes['class'].value
-		ids = parent.attributes['id'] == nil ? nil : parent.attributes['id'].value
-		site.classes = classes
-		site.ids = ids
-		site.container = container
-	  site.save
+	def find_image_from_site(site, nokogiri)
+		doc = nokogiri.search('img')
+		image = doc.select{|img|img.attributes['src'].value == site.orig_pic_url}[0]
+		site.class_id_container_parent(site, image)
+	end
+
+	def class_id_container_parent(site, nokogiri)
+		until site.class_or_id_labeled(nokogiri)
+			nokogiri = nokogiri.parent
+		end
+		site.update_site(site, nokogiri)
+	end
+
+	def class_or_id_labeled(nokogiri)
+		nokogiri.attributes.include?("class") || nokogiri.attributes.include?("id")
+	end
+
+	def update_site(site, nokogiri)
+		site.classes = nokogiri["class"]
+		site.ids = nokogiri["id"]
+		site.container = nokogiri.name
+		site.save
 	end
 
 	def url_shortener_filter(site, domain)
@@ -102,7 +115,7 @@ class Site < ActiveRecord::Base
 
 	def filter_package(site)
 		domain = site.domain
-		url = site.picture_url
+		url = site.orig_pic_url
 		url_shortened = url_shortener_filter(url, domain)
 		domain_filtered = domain_filter(domain, [[0,url_shortened]])
 		http_filtered = http_filter(domain_filtered[0][1])
