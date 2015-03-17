@@ -14,3 +14,11 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+$(document).ready(function(){
+	$(window).keypress(function(e){
+		e.preventDefault();
+		if (e.which == 32){
+			window.location.href = $("#another")[0];
+		}
+	})
+});
