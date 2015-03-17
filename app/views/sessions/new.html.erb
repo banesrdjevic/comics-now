@@ -1,11 +1,12 @@
-<div class="login_form">
-  <%= form_tag do  %>
-    <div class="field-origin" >
-      <%= text_field_tag :email, nil, placeholder: "Email"  %><br>
+<div class="login_form ui fluid form">
+  <%= form_tag do %>
+    <div class="field registration" >
+      <%= text_field_tag :email, nil, placeholder: "Email"  %>
     </div>
     <div class="field-destination">
-      <%= password_field_tag :password, nil, placeholder: "Password"  %><br>
+      <%= password_field_tag :password, nil, placeholder: "Password"  %>
     </div>
+    
   <div id="login">
     <%= submit_tag 'Login', class: "ui primary button", id:"login-create" %>
   </div>

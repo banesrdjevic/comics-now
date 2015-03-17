@@ -4,11 +4,11 @@ class SitesController < ApplicationController
 	require 'nokogiri'
 
 	def index
-		@sites = Site.all
+		@sites = Site.all.shuffle
 	end
 
 	def show
-		@site = Site.find_by(site_url: site_params[:site])
+		@site = Site.all.sample
 	end
 
 	def create

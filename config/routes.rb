@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   resources :sites
   resources :users
+  resources :users_sites
 
   get '/sites' => 'sites#index'
-  get '/pictures' => 'sites#show'
+  get '/random' => 'sites#show'
+  get '/profile' => 'users_sites#index'
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
