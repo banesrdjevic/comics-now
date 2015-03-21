@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//=require jquery.turbolinks
 $(document).ready(function(){
 	$(window).keypress(function(e){
 		if (e.which == 32 && !!document.getElementById("random-site")){

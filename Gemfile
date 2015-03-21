@@ -16,6 +16,7 @@ gem 'responders', '~> 2.0'
 gem "less-rails"
 gem 'bcrypt', '~> 3.1.7'
 gem 'rufus-scheduler'
+gem 'jquery-turbolinks'
 
 gem 'jquery-ui-rails'
 
