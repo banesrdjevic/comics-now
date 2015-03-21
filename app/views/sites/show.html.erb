@@ -1,15 +1,19 @@
-<div class = "ui primary button">
-<%= link_to "Another!", random_path, class: "header-option item", id: "another" %>
-</div>
+<div id = 'random-site'>
 
-<br>
-
-<a href = <%= @site.site_url %> >
-	<%= @site.title %>
 	<br>
-	<img src = <%= @site.picture_url %> >
-</a>
 
-<br>
+
+	<div class = "ui primary button">
+		<%= link_to "Another!", random_path, class: "header-option item", id: "another" %>
+	</div>
+	<%= render partial:'like_comic', locals:{site: @site} %>
+	<a href = <%= @site.site_url %> >
+		<%= @site.title %>
+		<br>
+		<img src = <%= @site.picture_url %> >
+	</a>
+
+	<br>
+</div>
 
 

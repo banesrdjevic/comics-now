@@ -1,4 +1,5 @@
 class UsersSitesController < ApplicationController
+    respond_to :html, :js
 
   def create
   	@user_site = UsersSite.new(users_site_params)
@@ -16,6 +17,6 @@ class UsersSitesController < ApplicationController
   private
 
   def users_site_params
-    params.require(:users_site).permit(:user_id, :site_id)
+    params.require(:users_site).permit(:users_id, :sites_id)
   end
 end

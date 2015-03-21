@@ -16,9 +16,25 @@
 //= require_tree .
 $(document).ready(function(){
 	$(window).keypress(function(e){
-		e.preventDefault();
-		if (e.which == 32){
+		if (e.which == 32 && !!document.getElementById("random-site")){
+			e.preventDefault();
 			window.location.href = $("#another")[0];
 		}
+	})
+
+
+	$('.favor-site').on('click', function(e){
+		e.preventDefault();
+		var request = $.ajax({
+      url: this.href,
+      method: 'post',
+      dataType: 'json'
+
+		})
+
+		request.done(function(response){
+
+		})
+
 	})
 });

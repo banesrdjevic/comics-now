@@ -1,0 +1,6 @@
+
+<%= link_to like_path(:users_site => {:users_id => session[:user_id], :sites_id => site.id}), class: "favor-site" do %>
+<div id= 'like-button' class= 'ui blue button'>
+	Like
+</div>
+<% end %>

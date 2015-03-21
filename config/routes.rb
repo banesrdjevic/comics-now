@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/random' => 'sites#show'
   get '/profile' => 'users_sites#index'
   get '/login' => 'sessions#new'
+  post '/like' => 'users_sites#create'
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
 

@@ -2,6 +2,8 @@ class SitesController < ApplicationController
 	require 'open-uri'
 	require 'fastimage'
 	require 'nokogiri'
+	  respond_to :html, :js
+
 
 	def index
 		@sites = Site.all.shuffle

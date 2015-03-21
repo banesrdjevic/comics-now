@@ -5,12 +5,16 @@
 
 <div class = 'images'>
 	<% @sites.each do |site| %>
-		<div class = 'id'>
-			<a href = <%= site.site_url %> >
-				<%= site.title %>
-				<br>
-				<img src = <%= site.picture_url %> >
-			</a>
-		</div>
+	<div class = 'id'>
+		<a href = <%= site.site_url %> >
+			<%= site.title %>
+		</a>
+		<%= render partial:"like_comic", locals: {site: site} %>
+		<br>
+		<a href = <%= site.site_url %> >
+
+			<img src = <%= site.picture_url %> >
+		</a>
+	</div>
 	<% end %>
 </div>

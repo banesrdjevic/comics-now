@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+
+  respond_to :html, :js
+  
   def new
     @user = User.new
   end
