@@ -1,0 +1,4 @@
+$('.favor-site').bind('ajax:success', function(){
+	$(this).hide();
+	$(this).closest('div').children('.already-liked').show();
+});

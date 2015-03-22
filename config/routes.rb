@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/profile' => 'users_sites#index'
   get '/login' => 'sessions#new'
   post '/like' => 'users_sites#create'
+  delete '/dislike' => 'users_sites#destroy'
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
 

@@ -5,11 +5,16 @@
 
 <div class = 'images'>
 	<% @sites.each do |site| %>
-	<div class = 'id'>
+	<div class = '<%=site.id%>'>
 		<a href = <%= site.site_url %> >
 			<%= site.title %>
 		</a>
+		<% if UsersSite.find_by(users_id: session[:user_id], sites_id: site.id) %>
+		<div class = 'already-liked ui green button'>Pinned!</div>
+		<% else %>
 		<%= render partial:"like_comic", locals: {site: site} %>
+		<div class = 'already-liked ui green button'  style="display: none;">Pinned!</div>
+		<%end%>
 		<br>
 		<a href = <%= site.site_url %> >
 

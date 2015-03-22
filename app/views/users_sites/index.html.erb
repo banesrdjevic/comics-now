@@ -1,11 +1,13 @@
 <div class = 'personal_images'>
 	<% @users_sites.each do |site| %>
-		<div class = 'id'>
-			<a href = <%= Site.find(site.sites_id).site_url %> >
-				<%= Site.find(site.sites_id).title %>
-				<br>
-				<img src = <%= Site.find(site.sites_id).picture_url %> >
+
+	<div class = 'id'>
+		<a href = <%= Site.find(site.sites_id).site_url %> >
+			<%= Site.find(site.sites_id).title %></a>
+			<%= render partial: 'sites/remove_comic', locals:{site: site} %>
+			<br>
+			<a href = <%= Site.find(site.sites_id).site_url %>> <img src = <%= Site.find(site.sites_id).picture_url %> >
 			</a>
 		</div>
-	<% end %>
-</div>
+		<% end %>
+	</div>

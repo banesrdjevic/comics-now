@@ -1,9 +1,14 @@
 class UsersSitesController < ApplicationController
-    respond_to :html, :js
+  respond_to :html, :js
 
   def create
   	@user_site = UsersSite.new(users_site_params)
   	@user_site.save
+    respond_to do |format|
+      format.html { redirect_to sites_url }
+      format.json { head :no_content }
+      format.js   { render :layout => false }
+    end
   end
 
   def index
@@ -12,6 +17,13 @@ class UsersSitesController < ApplicationController
   end
 
   def destroy
+    @site_match = UsersSite.find(params[:id])
+    @site_match.destroy if @site_match
+    respond_to do |format|
+      format.html { redirect_to sites_url }
+      format.json { head :no_content }
+      format.js   { render :layout => false }
+    end
   end
 
   private

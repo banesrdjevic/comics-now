@@ -6,7 +6,12 @@
 	<div class = "ui primary button">
 		<%= link_to "Another!", random_path, class: "header-option item", id: "another" %>
 	</div>
-	<%= render partial:'like_comic', locals:{site: @site} %>
+	<% if UsersSite.find_by(users_id: session[:user_id], sites_id: @site.id) %>
+	<div class = 'already-liked ui green button'>Pinned!</div>
+	<% else %>
+	<%= render partial:"like_comic", locals: {site: @site} %>
+	<div class = 'already-liked ui green button'  style="display: none;">Pinned!</div>
+	<%end%>
 	<a href = <%= @site.site_url %> >
 		<%= @site.title %>
 		<br>

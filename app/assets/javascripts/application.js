@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//=require jquery.turbolinks
 $(document).ready(function(){
 	$(window).keypress(function(e){
 		if (e.which == 32 && !!document.getElementById("random-site")){
@@ -24,18 +23,33 @@ $(document).ready(function(){
 	})
 
 
-	$('.favor-site').on('click', function(e){
-		e.preventDefault();
-		var request = $.ajax({
-      url: this.href,
-      method: 'post',
-      dataType: 'json'
+	// $('.favor-site').on('click', function(e){
+	// 	e.preventDefault();
+	// 	var request = $.ajax({
+	// 		url: this.href,
+	// 		method: 'post',
+	// 		dataType: 'json'
 
-		})
+	// 	})
 
-		request.done(function(response){
+	// 	request.done(function(response){
 
-		})
+	// 	})
 
-	})
+	// })
+
+	// $('.remove-favor').on('click', function(e){
+	// 	e.preventDefault();
+	// 	var article = $(this).parents('div');
+	// 	var request = $.ajax({
+	// 		url: this.href,
+	// 		method: 'delete'
+	// 	})
+
+	// 	request.done(function(response){
+	// 		console.log('apple');
+	// 		article.remove();
+	// 	})
+
+	// })
 });
