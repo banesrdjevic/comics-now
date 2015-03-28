@@ -1,6 +1,7 @@
-
+<% if current_user %>
 <%= link_to like_path(:users_site => {:users_id => session[:user_id], :sites_id => site.id}), method: :post, remote: true, class: "favor-site" do %>
 <div id= 'like-button' class= 'ui blue button'>
 	Pin
 </div>
 <% end %>
+<%end%>
